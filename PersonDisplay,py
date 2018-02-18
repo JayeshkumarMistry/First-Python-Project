@@ -1,0 +1,25 @@
+from pony.converting import str2datetime
+from pony.orm import *
+
+db = Database("sqlite", "person.sqlite", create_db=True)
+
+class CustomerX(db.Entity):
+    emailX = Required(str, unique=True)
+    passwordX = Required(str)
+    nameX = Required(str)
+    countryX = Required(str)
+    addressX = Required(str)
+
+
+sql_debug(True)
+
+db.generate_mapping(create_tables=True)
+
+@db_session
+def test_queries():
+    CustomerXs = select(p for p in CustomerX)
+    for p in CustomerXs:
+        print (p.emailX, p.nameX, p.countryX, p.addressX)
+	
+if __name__ == '__main__':
+    test_queries()
